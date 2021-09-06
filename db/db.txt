@@ -1,0 +1,7 @@
+create table tb_matricula (
+    id_matricula int primary key auto_increment,
+    nm_aluno     varchar(255),
+    nr_chamada   int,
+    nm_curso    varchar(255),
+    nm_turma    varchar(255)
+)
