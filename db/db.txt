@@ -4,4 +4,6 @@ create table tb_matricula (
     nr_chamada   int,
     nm_curso    varchar(255),
     nm_turma    varchar(255)
-)
+);
+
+nm_aluno, nr_chamada, nm_curso, nm_turma

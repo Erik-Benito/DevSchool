@@ -1,10 +1,10 @@
 import initdb from './models/init-models.js'
 import Sequelize from 'sequelize';
 const sequelize = new Sequelize(
-'dev',
+'school',
 'root',
-'1234', {
-host: '127.0.0.1',
+'Rtr171100,', {
+host: 'localhost',
 dialect: 'mysql',
 logging: false
 });
