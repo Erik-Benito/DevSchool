@@ -244,71 +244,56 @@ const Container = styled.div`
 
             }
         }
-    }
-
-`
-const TituloLista = styled.tr`
-    td{
-        padding: 8px;
-
-        border: 1px solid #986CDF;
-
-        text-align:left ;
-
-         
-        background: #986CDF;
-
+        thead {
+            background-color: #986CDF;
+        }
+        table {
+            margin: 2em;
+        }
+        tbody {
+            background-color: #F5F5F5;
+        }
+        td {
+            text-align: left;
+            height:  61.93px;
+            padding: 1em;
+            color: #6D6868;
+            font-weight: 600;
+        }
+        th {
+            height: 61.93px;
+            text-align: left;
+            padding: 1em;
+            color: #ffff;
+            font-weight: 800;
+        } 
         
-        font-family: Roboto;
-        font-weight: bold;
-        font-size: 18px;
-        line-height: 21px;
-
-        color: #FFFFFF;
-
-        border: 1px solid #986CDF;
-
-        overflow-y: unset; 
+        .table-user {
+            border-collapse: collapse;
+        }
+        td button {
+            border-radius: 50%;
+            background-color: #565656;
+            border: none;
+            width: 31px;
+            height: 31px;
+        }
+        
+        .box-image {
+            margin-right: 2em;
+        }
+        thead {
+            background-color: #986CDF;
+        }
+        table {
+            margin-top: 2em;
+        }
+        tbody {
+            background-color: #F5F5F5;
+        }
+        
     }
-    th{
-        font-family: Roboto;
-        font-weight: 500;
-        font-size: 18px;
-        line-height: 21px;
-
-        color: #6D6868;
-        padding: 0em 3em;
-
-        background: ${({color}) => color ? '#986CDF' : 'white'};
-
-        .btms-acoes{
-            
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-
-            button{
-                
-                background: #565656;
-                border-radius: 50%;
-                
-                display: flex;
-                align-items: center;
-                
-                height: 32px;
-                width: 32px;
-                
-                margin-right: 1em;
-
-                cursor: pointer;
-            }
-        }   
-    }
-
 
 `
 
-
-    
-
-export { Container, TituloLista }
+export { Container }

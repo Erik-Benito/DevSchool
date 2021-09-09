@@ -1,9 +1,9 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Menu from "../../components/menu";
 
-import { Container, TituloLista } from "./styled";
+import { Container } from "./styled";
 
 import Api from '../../service/api';
 
@@ -47,7 +47,6 @@ export default function Home(){
         alert('Excluido');
         listarAlunos();
     }
-    
     return(
         <Container>
             <Menu/>
@@ -65,7 +64,7 @@ export default function Home(){
                 <div className="nv-aluno">
                         <div className="titulo-form">
                             <img src="/src/img/line.svg" alt="line"/>
-                            Novo Aluno
+                            {idalterado > 0 ? `Esta sendo Alterado o id ${idalterado}`: 'Novo Aluno' }
                         </div>
                         <div className="inputs">
                             <div className="sub-titulo">
@@ -84,7 +83,7 @@ export default function Home(){
                                 <input type="text"value={curso} onChange={e => setCurso(e.target.value)}/>
                                 <input type="text"value={turma} onChange={e => setTurma(e.target.value)}/>
                             </div> 
-                            <div className="btm-cad"><button onClick={inserirAluno}>Cadastrar</button></div>
+                            <div className="btm-cad"><button onClick={inserirAluno}> {idalterado > 0 ? 'Alterar' : 'Novo Aluno' }</button></div>
                         </div>
                       
                 </div>
@@ -93,34 +92,40 @@ export default function Home(){
                     <img src="/src/img/line.svg" alt="line"/>
                         Alunos Matriculados
                     </div>
-                    <div className="tabela" style={{overflowY: 'auto'}}>
-                        <table style={{padding: '0em 3em', width: '100%'}}>
-                            <TituloLista>
-                                <td>ID</td>
-                                <td>Nome</td>
-                                <td>Chamada</td>
-                                <td>Turma</td>
-                                <td>Curso</td>
-                                <td></td>
-                            </TituloLista>
+                
+                    <table class ="table-user">
+                            <thead>
+                                <tr>
+                                    <th> ID </th>
+                                    <th> Nome </th>
+                                    <th> Chamada </th>
+                                    <th> Turma </th>
+                                    <th> Curso </th>
+                                    <th class="coluna-acao"> </th>
+                                    <th class="coluna-acao"> </th>
+                                </tr>
+                            </thead>
                             {alunos.map(x => 
-                                <TituloLista>
-                                    <th color={cor => !cor }>{x.id_matricula}</th>
-                                    <th color={cor }>{x.nm_aluno}</th>
-                                    <th color={cor }>{x.nr_chamada}</th>
-                                    <th color={cor }>{x.nm_curso}</th>
-                                    <th color={cor }>{x.nm_turma}</th>
-                                    <th>
-                                        <div className="btms-acoes">
+                                 <tbody>
+                                     <tr>
+                                        <td>{x.id_matricula}</td>
+                                        <td>{x.nm_aluno}</td>
+                                        <td>{x.nr_chamada}</td>
+                                        <td>{x.nm_curso}</td>
+                                        <td>{x.nm_turma}</td>
+                                        <td>
                                             <button onClick={() => alterar(x)}><img src="/src/img/edit.svg" alt="edit"/></button>
+                                        </td> 
+                                        <td>
                                             <button onClick={() => excluir(x.id_matricula)}><img src="/src/img/lixo.svg" alt="lixo"/></button>
-                                        </div>
-                                    </th>
-                                </TituloLista>
+                                        </td>
+                                        
+                                    </tr>
+                                </tbody>
                             )}
                         </table>
                     </div>
-                </div>
+                
             </div>
         </Container>
     )
