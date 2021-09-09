@@ -66,7 +66,7 @@ app.delete('/matricula/:id', async(req, resp)=> {
     try {
         
         let r = await db.tb_matricula.destroy({where: {id_matricula: req.params.id}});
-        resp.sendStatus(200);
+        resp.send(req.params.id);
     
     } catch(e){
         

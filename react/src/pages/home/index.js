@@ -16,20 +16,37 @@ export default function Home(){
     const [turma , setTurma ] = useState('');
     const [curso , setCurso ] = useState('');
     const [alunos, setAlunos] = useState([]);
+    const [idalterado, setIdalterado] = useState();
 
+    const alterar = async(item) =>{
+        setNome(item.nm_aluno);
+        setTurma(item.nm_turma);
+        setCurso(item.nm_curso);
+        setChamada(item.nr_chamada);
+        setIdalterado(item.id_matricula);
+    }
     const inserirAluno = async () =>{
-        const resp = await api.cadastrarAluno(nome, chamada, turma, curso);
-        alert('Cadastrado');
+        
+            if(idalterado > 0){
+                const r = await api.alterar(idalterado ,nome, chamada, curso, turma);
+                alert('alterado')
+            } else {
+                const r = await api.cadastrarAluno(nome, chamada, turma, curso);
+                alert('Cadastrado');
+            }
         listarAlunos();
     }
     const listarAlunos = async() =>{
         const resp = await api.listar();
         setAlunos(resp);
+        listarAlunos();
     }
     const excluir = async(id) =>{
         const resp = await api.deletar(id);
-        alert('Excluido')
+        alert('Excluido');
+        listarAlunos();
     }
+    
     return(
         <Container>
             <Menu/>
@@ -55,16 +72,16 @@ export default function Home(){
                                 <p1>Chamada:</p1>
                             </div> 
                             <div className="sub-input">
-                                <input type="text" onChange={e => setNome(e.target.value)}/>
-                                <input type="text" onChange={e => setChamada(e.target.value)}/>
+                                <input type="text" value={nome} onChange={e => setNome(e.target.value)}/>
+                                <input type="number" value={chamada} onChange={e => setChamada(e.target.value)}/>
                             </div> 
                             <div className="sub-titulo">
                                 <p1>Curso:</p1>
                                 <p1>Turma:</p1>
                             </div> 
                             <div className="sub-input">
-                                <input type="text"onChange={e => setCurso(e.target.value)}/>
-                                <input type="text"onChange={e => setTurma(e.target.value)}/>
+                                <input type="text"value={curso} onChange={e => setCurso(e.target.value)}/>
+                                <input type="text"value={turma} onChange={e => setTurma(e.target.value)}/>
                             </div> 
                             <div className="btm-cad"><button onClick={inserirAluno}>Cadastrar</button></div>
                         </div>
@@ -92,8 +109,8 @@ export default function Home(){
                                 <th>{x.nm_curso}</th>
                                 <th>{x.nm_turma}</th>
                                 <th>
-                                    <button><img src="/src/img/edit.svg" alt="edit"/></button>
-                                    <button onClick={}><img src="/src/img/lixo.svg" alt="lixo"/></button>
+                                    <button onClick={() => alterar(x)}><img src="/src/img/edit.svg" alt="edit"/></button>
+                                    <button onClick={() => excluir(x.id_matricula)}><img src="/src/img/lixo.svg" alt="lixo"/></button>
                                 </th>
                             </TituloLista>
                         )}

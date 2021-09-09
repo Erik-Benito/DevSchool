@@ -268,6 +268,8 @@ const TituloLista = styled.tr`
         color: #FFFFFF;
 
         border: 1px solid #986CDF;
+
+        overflow-y: unset; 
     }
     th{
         font-family: Roboto;
