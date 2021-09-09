@@ -248,7 +248,6 @@ const Container = styled.div`
 
 `
 const TituloLista = styled.tr`
-
     td{
         padding: 8px;
 
@@ -278,6 +277,32 @@ const TituloLista = styled.tr`
         line-height: 21px;
 
         color: #6D6868;
+        padding: 0em 3em;
+
+        background: ${({color}) => color ? '#986CDF' : 'white'};
+
+        .btms-acoes{
+            
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+
+            button{
+                
+                background: #565656;
+                border-radius: 50%;
+                
+                display: flex;
+                align-items: center;
+                
+                height: 32px;
+                width: 32px;
+                
+                margin-right: 1em;
+
+                cursor: pointer;
+            }
+        }   
     }
 
 

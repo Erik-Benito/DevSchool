@@ -17,6 +17,7 @@ export default function Home(){
     const [curso , setCurso ] = useState('');
     const [alunos, setAlunos] = useState([]);
     const [idalterado, setIdalterado] = useState();
+    const [cor, setCor] = useState(true)
 
     const alterar = async(item) =>{
         setNome(item.nm_aluno);
@@ -92,29 +93,33 @@ export default function Home(){
                     <img src="/src/img/line.svg" alt="line"/>
                         Alunos Matriculados
                     </div>
-                    <table>
-                        <TituloLista>
-                            <td>ID</td>
-                            <td>Nome</td>
-                            <td>Chamada</td>
-                            <td>Turma</td>
-                            <td>Curso</td>
-                            <td></td>
-                        </TituloLista>
-                        {alunos.map(x => 
+                    <div className="tabela" style={{overflowY: 'auto'}}>
+                        <table style={{padding: '0em 3em', width: '100%'}}>
                             <TituloLista>
-                                <th>{x.id_matricula}</th>
-                                <th>{x.nm_aluno}</th>
-                                <th>{x.nr_chamada}</th>
-                                <th>{x.nm_curso}</th>
-                                <th>{x.nm_turma}</th>
-                                <th>
-                                    <button onClick={() => alterar(x)}><img src="/src/img/edit.svg" alt="edit"/></button>
-                                    <button onClick={() => excluir(x.id_matricula)}><img src="/src/img/lixo.svg" alt="lixo"/></button>
-                                </th>
+                                <td>ID</td>
+                                <td>Nome</td>
+                                <td>Chamada</td>
+                                <td>Turma</td>
+                                <td>Curso</td>
+                                <td></td>
                             </TituloLista>
-                        )}
-                    </table>
+                            {alunos.map(x => 
+                                <TituloLista>
+                                    <th color={cor => !cor }>{x.id_matricula}</th>
+                                    <th color={cor }>{x.nm_aluno}</th>
+                                    <th color={cor }>{x.nr_chamada}</th>
+                                    <th color={cor }>{x.nm_curso}</th>
+                                    <th color={cor }>{x.nm_turma}</th>
+                                    <th>
+                                        <div className="btms-acoes">
+                                            <button onClick={() => alterar(x)}><img src="/src/img/edit.svg" alt="edit"/></button>
+                                            <button onClick={() => excluir(x.id_matricula)}><img src="/src/img/lixo.svg" alt="lixo"/></button>
+                                        </div>
+                                    </th>
+                                </TituloLista>
+                            )}
+                        </table>
+                    </div>
                 </div>
             </div>
         </Container>
