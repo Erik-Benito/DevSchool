@@ -1,5 +1,9 @@
-
-import { useState, useEffect } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css'; 
+import { useState, useEffect, useRef } from 'react';
+import LoadingBar from 'react-top-loading-bar'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Menu from "../../components/menu";
 
@@ -17,6 +21,7 @@ export default function Home(){
     const [curso , setCurso ] = useState('');
     const [alunos, setAlunos] = useState([]);
     const [idalterado, setIdalterado] = useState();
+    const ref = useRef(null)
     
 
     const alterar = async(item) =>{
@@ -26,31 +31,46 @@ export default function Home(){
         setChamada(item.nr_chamada);
         setIdalterado(item.id_matricula);
     }
+
     const inserirAluno = async () =>{
-            console.log(typeof chamada == 'number' )
-        if(nome && turma && curso && ( typeof chamada == 'number'? chamada : null ) != null){
-            if(idalterado > 0){
-                const r = await api.alterar(idalterado ,nome, chamada, curso, turma);
-                alert('alterado')
-            } else {
-                const r = await api.cadastrarAluno(nome, chamada, turma, curso);
-                if(!r.erro){alert('Cadastrado')} else {alert(r.erro)}
-            }
+        
+        if(idalterado > 0){
+            const r = await api.alterar(idalterado ,nome, chamada, curso, turma);
+            if(!r.erro){toast.success('alterado')} else {toast.error(r.error)}
         } else {
-            alert('Campo invalidos')
+            const r = await api.cadastrarAluno(nome, chamada, turma, curso);
+            if(!r.erro){toast.success('Cadastrado')} else {toast.error(r.erro)}
         }
         limpar();
         listarAlunos();
     }
     const listarAlunos = async() =>{
+        ref.current.continuousStart();
+
         const resp = await api.listar();
         setAlunos(resp);
         listarAlunos();
+        
+        ref.current.complete();
+    
     }
     const excluir = async(id) =>{
-        const resp = await api.deletar(id);
-        alert('Excluido');
-        listarAlunos();
+        confirmAlert({
+            title: 'Remover Aluno',
+            message: `Tem certeza que deseja remover o aluno${idalterado}`,
+            buttons:[
+                {
+                    label: 'Sim',
+                    onClick: async () => {
+                        const resp = await api.listar();
+                        setAlunos(resp);
+                        toast.error('Aluno removido');
+                        listarAlunos();
+                    }
+                },
+                {label: 'Não'}
+            ]
+        })
     }
     const limpar = async() =>{
         setNome('');
@@ -64,6 +84,9 @@ export default function Home(){
     }, [])
     return(
         <Container>
+            <LoadingBar color='#f11946' ref={ref} />
+            <ToastContainer/>
+            
             <Menu/>
             <div className="admin">
                 <div className="cabecalho">
