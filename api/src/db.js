@@ -1,9 +1,9 @@
 import initdb from './models/init-models.js'
 import Sequelize from 'sequelize';
 const sequelize = new Sequelize(
-'dev',
+'School',
 'root',
-'1234', {
+'Rtr171100,', {
 host: 'localhost',
 dialect: 'mysql',
 logging: false

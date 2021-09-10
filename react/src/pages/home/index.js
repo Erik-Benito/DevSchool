@@ -17,7 +17,7 @@ export default function Home(){
     const [curso , setCurso ] = useState('');
     const [alunos, setAlunos] = useState([]);
     const [idalterado, setIdalterado] = useState();
-    const [cor, setCor] = useState(true)
+    
 
     const alterar = async(item) =>{
         setNome(item.nm_aluno);
@@ -28,13 +28,14 @@ export default function Home(){
     }
     const inserirAluno = async () =>{
         
-            if(idalterado > 0){
-                const r = await api.alterar(idalterado ,nome, chamada, curso, turma);
-                alert('alterado')
-            } else {
-                const r = await api.cadastrarAluno(nome, chamada, turma, curso);
-                alert('Cadastrado');
-            }
+        if(idalterado > 0){
+            const r = await api.alterar(idalterado ,nome, chamada, curso, turma);
+            alert('alterado')
+        } else {
+            const r = await api.cadastrarAluno(nome, chamada, turma, curso);
+            if(!r.erro){alert('Cadastrado')} else {alert('Já cadastrado')}
+        }
+        limpar();
         listarAlunos();
     }
     const listarAlunos = async() =>{
@@ -47,6 +48,16 @@ export default function Home(){
         alert('Excluido');
         listarAlunos();
     }
+    const limpar = async() =>{
+        setNome('');
+        setTurma('');
+        setCurso('');
+        setChamada('');
+        setIdalterado(0);
+    }
+    useEffect(() => {
+        listarAlunos();
+    }, [])
     return(
         <Container>
             <Menu/>
@@ -73,7 +84,7 @@ export default function Home(){
                             </div> 
                             <div className="sub-input">
                                 <input type="text" value={nome} onChange={e => setNome(e.target.value)}/>
-                                <input type="number" value={chamada} onChange={e => setChamada(e.target.value)}/>
+                                <input type="number" min="0" value={chamada} onChange={e => setChamada(e.target.value)}/>
                             </div> 
                             <div className="sub-titulo">
                                 <p1>Curso:</p1>
@@ -105,19 +116,19 @@ export default function Home(){
                                     <th class="coluna-acao"> </th>
                                 </tr>
                             </thead>
-                            {alunos.map(x => 
+                            {alunos.map((x,i) => 
                                  <tbody>
-                                     <tr>
+                                     <tr className={i % 2 == 0 ? "linha": ""}>
                                         <td>{x.id_matricula}</td>
-                                        <td>{x.nm_aluno}</td>
+                                        <td title={x.nm_aluno}>{x.nm_aluno.length >= 25 ? x.nm_aluno.substr(0, 25) + '...' : x.nm_aluno}</td>
                                         <td>{x.nr_chamada}</td>
                                         <td>{x.nm_curso}</td>
                                         <td>{x.nm_turma}</td>
-                                        <td>
+                                        <td className="coluna"  style={{width: '10px'}}>
                                             <button onClick={() => alterar(x)}><img src="/src/img/edit.svg" alt="edit"/></button>
                                         </td> 
-                                        <td>
-                                            <button onClick={() => excluir(x.id_matricula)}><img src="/src/img/lixo.svg" alt="lixo"/></button>
+                                        <td className="coluna" >
+                                            <button  onClick={() => excluir(x.id_matricula)}><img src="/src/img/lixo.svg" alt="lixo"/></button>
                                         </td>
                                         
                                     </tr>

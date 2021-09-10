@@ -43,6 +43,7 @@ export default function Menu(){
                     <ItemMenu 
                         color={coralt} 
                         texto={txtalt} 
+                        style={{borderLeft: 'solid 5px #DB21BD'}}
                         onClick={e => {setCoralt(coralt => !coralt); setTxtalt(txtalt => !txtalt)}}
                     > 
                     {x}

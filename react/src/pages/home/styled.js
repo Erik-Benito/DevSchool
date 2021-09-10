@@ -4,7 +4,8 @@ const Container = styled.div`
 
     display: flex;
     flex-direction: row;
-    
+    min-width: 100%;
+    height: 100%;
     .admin{
             
         display: flex;
@@ -17,6 +18,13 @@ const Container = styled.div`
 
         background-color: #F5F5F5;
 
+        height: 100%;
+
+        .linha{
+            background: #ffff;
+        }
+        .coluna > button {visibility: hidden; cursor: pointer};
+        tr:hover{.coluna > button {visibility: visible}; }
     
         .cabecalho{
             
@@ -113,6 +121,8 @@ const Container = styled.div`
 
             height: 12em;
             width: 95%;
+
+            margin: 2em;
 
             .titulo-form{
 
@@ -218,7 +228,6 @@ const Container = styled.div`
             display:flex;
             flex-direction: column;
            
-            height: 27em;
             width: 95%;
 
             background: white;
@@ -259,6 +268,7 @@ const Container = styled.div`
             padding: 1em;
             color: #6D6868;
             font-weight: 600;
+           
         }
         th {
             height: 61.93px;
@@ -277,6 +287,7 @@ const Container = styled.div`
             border: none;
             width: 31px;
             height: 31px;
+            
         }
         
         .box-image {

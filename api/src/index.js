@@ -8,7 +8,7 @@ app.use(express.json())
 app.get('/matricula', async( req, resp)=>{
     try {
         
-        let r = await db.tb_matricula.findAll();
+        let r = await db.tb_matricula.findAll({order:[['id_matricula', 'desc' ]] });
         resp.send(r);
     
     } catch (e) {
@@ -31,9 +31,15 @@ app.post('/matricula', async(req, resp)=> {
         
         };
 
-        let r = await db.tb_matricula.create(d);
-        resp.send(r);
+        let i = await db.tb_matricula.findOne({d});
+        if(i === null){
+            let r = await db.tb_matricula.create(d);
+            resp.send(r);
+         } else {
+             resp.send({erro: true})
+         }
 
+        
     }catch(e){
     
         resp.send(e.toString());

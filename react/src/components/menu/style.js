@@ -12,6 +12,11 @@ const Container = styled.div`
     flex-direction: column;
     justify-content: space-between;
 
+    height: 100vh;
+    padding-bottom: 0em;
+    position: sticky;
+    top: 0px;
+
     .Logo-Tipo{
         
         width: 100%;
@@ -58,6 +63,7 @@ const ItemMenu = styled.div`
     
     color: ${({texto}) => texto ? 'white':'black'};
     background: ${({color}) => color ? '#2B3031': 'white'};
+    
 
     &:hover{
         img{transform: rotate(180deg)}
