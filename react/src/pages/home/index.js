@@ -27,13 +27,17 @@ export default function Home(){
         setIdalterado(item.id_matricula);
     }
     const inserirAluno = async () =>{
-        
-        if(idalterado > 0){
-            const r = await api.alterar(idalterado ,nome, chamada, curso, turma);
-            alert('alterado')
+            console.log(typeof chamada == 'number' )
+        if(nome && turma && curso && ( typeof chamada == 'number'? chamada : null ) != null){
+            if(idalterado > 0){
+                const r = await api.alterar(idalterado ,nome, chamada, curso, turma);
+                alert('alterado')
+            } else {
+                const r = await api.cadastrarAluno(nome, chamada, turma, curso);
+                if(!r.erro){alert('Cadastrado')} else {alert(r.erro)}
+            }
         } else {
-            const r = await api.cadastrarAluno(nome, chamada, turma, curso);
-            if(!r.erro){alert('Cadastrado')} else {alert('Já cadastrado')}
+            alert('Campo invalidos')
         }
         limpar();
         listarAlunos();

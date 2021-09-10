@@ -22,6 +22,7 @@ app.get('/matricula', async( req, resp)=>{
 app.post('/matricula', async(req, resp)=> {
     try{
 
+        
         let d = {
 
             nm_aluno:   req.body.nome, 
@@ -31,14 +32,8 @@ app.post('/matricula', async(req, resp)=> {
         
         };
 
-        let i = await db.tb_matricula.findOne({d});
-        if(i === null){
             let r = await db.tb_matricula.create(d);
             resp.send(r);
-         } else {
-             resp.send({erro: true})
-         }
-
         
     }catch(e){
     
