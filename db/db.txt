@@ -7,3 +7,8 @@ create table tb_matricula (
 );
 
 nm_aluno, nr_chamada, nm_curso, nm_turma
+
+'dev',
+'root',
+'1234', {
+host: '127.0.0.1',

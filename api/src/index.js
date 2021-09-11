@@ -22,7 +22,18 @@ app.get('/matricula', async( req, resp)=>{
 app.post('/matricula', async(req, resp)=> {
     try{
 
+        if(req.body.nome === null || req.body.nome == "" || req.body.nome.length < 4){return resp.send({erro:'O campo nome deve conter 4 caracteres'})}
         
+        if(parseInt(req.body.chamada) < 0 || req.body.chamada == ""){return resp.send({erro:'O campo Chamada deve ser maior que 0'})}
+        
+        if(req.body.curso === null || req.body.curso == "" || req.body.curso.length < 4 ){return resp.send({erro:'O campo curso deve conter 4 caracteres'})}
+        
+        if(req.body.turma === null || req.body.turma == ""|| req.body.turma.length < 4 ){return resp.send({erro:'O campo turma deve conter 4 caracteres'})}
+
+        let ca = await db.tb_matricula.findOne({where:{nr_chamada: req.body.chamada, nm_turma: req.body.turma}});
+
+        if(ca != null){return resp.send({erro:'Já um aluno cadastrado nessa turma com o mesmo numero de chamada'})}
+
         let d = {
 
             nm_aluno:   req.body.nome, 

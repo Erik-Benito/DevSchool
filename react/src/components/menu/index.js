@@ -27,7 +27,7 @@ export default function Menu(){
 
         <Container>
             <div className="Logo-Tipo" >
-                <img src="/src/img/logo.svg" alt="Logo DevSchool"/>
+                <img src="/assets/img/logo.svg" alt="Logo DevSchool"/>
             </div>
            
             <div className="itemsMenu">
@@ -36,7 +36,7 @@ export default function Menu(){
                  texto='true'
                  onClick={ListarOpcoes}>
                     Gerenciamento 
-                    <img src="/src/img/Vector.svg" alt="svg-seta"/>
+                    <img src="/assets/img/Vector.svg" alt="svg-seta"/>
                 </ItemMenu>
 
                 { opcoes.map( x => 

@@ -14,14 +14,14 @@ import Api from '../../service/api';
 const api = new Api();
 
 export default function Home(){
-
+    const loading = useRef(null);
     const [nome , setNome ] = useState('');
     const [chamada , setChamada ] = useState('');
     const [turma , setTurma ] = useState('');
     const [curso , setCurso ] = useState('');
     const [alunos, setAlunos] = useState([]);
     const [idalterado, setIdalterado] = useState();
-    const ref = useRef(null)
+    
     
 
     const alterar = async(item) =>{
@@ -36,28 +36,26 @@ export default function Home(){
         
         if(idalterado > 0){
             const r = await api.alterar(idalterado ,nome, chamada, curso, turma);
-            if(!r.erro){toast.success('alterado')} else {toast.error(r.error)}
+            if(!r.erro){toast.success('alterado'); limpar(); listarAlunos()} else {toast.error(r.error)}
         } else {
-            const r = await api.cadastrarAluno(nome, chamada, turma, curso);
-            if(!r.erro){toast.success('Cadastrado')} else {toast.error(r.erro)}
+            const r = await api.cadastrarAluno(nome, chamada, curso, turma);
+            if(!r.erro){toast.success('Cadastrado'); limpar(); listarAlunos()} else {toast.error(r.erro)}
         }
-        limpar();
-        listarAlunos();
+        
     }
     const listarAlunos = async() =>{
-        ref.current.continuousStart();
+        loading.current.continuousStart();
 
         const resp = await api.listar();
         setAlunos(resp);
-        listarAlunos();
-        
-        ref.current.complete();
+        console.log('passoui')
+        loading.current.complete();
     
     }
     const excluir = async(id) =>{
         confirmAlert({
             title: 'Remover Aluno',
-            message: `Tem certeza que deseja remover o aluno${idalterado}`,
+            message: `Tem certeza que deseja remover o aluno ${id}`,
             buttons:[
                 {
                     label: 'Sim',
@@ -80,29 +78,29 @@ export default function Home(){
         setIdalterado(0);
     }
     useEffect(() => {
-        listarAlunos();
+       listarAlunos();
     }, [])
     return(
         <Container>
-            <LoadingBar color='#f11946' ref={ref} />
+            <LoadingBar color='#f11946' ref={loading} />
             <ToastContainer/>
             
             <Menu/>
             <div className="admin">
                 <div className="cabecalho">
                     <div className="infos-user">
-                        <img src="/src/img/user.svg" alt="ft-user"/>
+                        <img src="/assets/img/user.svg" alt="ft-user"/>
                         Olá, <b> Fulano da Silva</b>
                     </div>
                     <div className="acoes">
-                        <div className="atualizar" onClick={listarAlunos}><img src="/src/img/att.svg" alt="att"/></div>
-                        <div className="sair"><img src="/src/img/sair.svg" alt="sair"/></div>
+                        <div className="atualizar" onClick={listarAlunos}><img src="/assets/img/att.svg" alt="att"/></div>
+                        <div className="sair"><img src="/assets/img/sair.svg" alt="sair"/></div>
                     </div>
                 </div>
                 <div className="nv-aluno">
                         <div className="titulo-form">
-                            <img src="/src/img/line.svg" alt="line"/>
-                            {idalterado > 0 ? `Esta sendo Alterado o id ${idalterado}`: 'Novo Aluno' }
+                            <img src="/assets/img/line.svg" alt="line"/>
+                            {idalterado > 0 ? `Alterado o aluno ${idalterado}`: 'Novo Aluno' }
                         </div>
                         <div className="inputs">
                             <div className="sub-titulo">
@@ -127,7 +125,7 @@ export default function Home(){
                 </div>
                 <div className="matriculados">
                 <div className="titulo-form">
-                    <img src="/src/img/line.svg" alt="line"/>
+                    <img src="/assets/img/line.svg" alt="line"/>
                         Alunos Matriculados
                     </div>
                 
@@ -145,17 +143,17 @@ export default function Home(){
                             </thead>
                             {alunos.map((x,i) => 
                                  <tbody>
-                                     <tr className={i % 2 == 0 ? "linha": ""}>
+                                     <tr className={i % 2 === 0 ? "linha": ""}>
                                         <td>{x.id_matricula}</td>
                                         <td title={x.nm_aluno}>{x.nm_aluno.length >= 25 ? x.nm_aluno.substr(0, 25) + '...' : x.nm_aluno}</td>
                                         <td>{x.nr_chamada}</td>
-                                        <td>{x.nm_curso}</td>
                                         <td>{x.nm_turma}</td>
+                                        <td>{x.nm_curso}</td>
                                         <td className="coluna"  style={{width: '10px'}}>
-                                            <button onClick={() => alterar(x)}><img src="/src/img/edit.svg" alt="edit"/></button>
+                                            <button onClick={() => alterar(x)}><img src="/assets/img/edit.svg" alt="edit"/></button>
                                         </td> 
                                         <td className="coluna" >
-                                            <button  onClick={() => excluir(x.id_matricula)}><img src="/src/img/lixo.svg" alt="lixo"/></button>
+                                            <button  onClick={() => excluir(x.id_matricula)}><img src="/assets/img/lixo.svg" alt="lixo"/></button>
                                         </td>
                                         
                                     </tr>
