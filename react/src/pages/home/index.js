@@ -48,7 +48,6 @@ export default function Home(){
 
         const resp = await api.listar();
         setAlunos(resp);
-        console.log('passoui')
         loading.current.complete();
     
     }
@@ -60,8 +59,7 @@ export default function Home(){
                 {
                     label: 'Sim',
                     onClick: async () => {
-                        const resp = await api.listar();
-                        setAlunos(resp);
+                        const resp = await api.deletar(id);
                         toast.error('Aluno removido');
                         listarAlunos();
                     }
